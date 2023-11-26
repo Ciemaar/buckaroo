@@ -3,20 +3,19 @@ from hypothesis.extra.pandas import data_frames, column
 
 import buckaroo
 
-SUPPORTED_DATA = st.one_of(st.integers(), st.floats(), st.text(), st.dictionaries(st.text(), st.integers()),
-                           st.lists(st.text()))
-
 
 # TODO: replace st.nothing() with appropriate strategies
 
 
 @given(
     # TODO: write strategy to support n-Columns
-    df=st.one_of(data_frames(columns=[column(elements=SUPPORTED_DATA)]),
-                 data_frames(columns=[column(elements=SUPPORTED_DATA), column(elements=SUPPORTED_DATA)]),
-                 data_frames(columns=[column(elements=SUPPORTED_DATA), column(elements=SUPPORTED_DATA),
-                                      column(elements=SUPPORTED_DATA)]),
-                 ),
+    df=st.one_of(data_frames(columns=[column(elements=st.integers())]),
+                 data_frames(columns=[column(elements=st.floats())]),
+                 data_frames(columns=[column(elements=st.text())]),
+                 data_frames(columns=[column(elements=
+                                             st.dictionaries(st.text(), st.integers()))]),
+                 data_frames(columns=[column(elements=
+                                             st.lists(st.text()))])),
     sampled=st.booleans(),
     summaryStats=st.booleans(),
     reorderdColumns=st.booleans(),
